@@ -47,7 +47,7 @@ fn main() {
     let default_name = format!("Timer de {:?}", duration);
     let name = args.get(2).unwrap_or(&default_name).to_string();
     let timer = Timer::new(name, duration);
-    let nb_step = (timer.duration.as_millis() / 10) as u64;
+    let nb_step = timer.duration.as_secs() as u64;
     let mut pb = ProgressBar::new(nb_step);
     pb.format("[-> ]");
     pb.message(&(String::new() + &timer.name + " "));
@@ -57,7 +57,7 @@ fn main() {
     pb.show_tick = false;
     thread::spawn(move || {
         for i in 0 .. nb_step {
-            thread::sleep(Duration::from_millis(10));
+            thread::sleep(Duration::from_secs(1));
             pb.inc();
             pb.tick()
         }
